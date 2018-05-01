@@ -6,7 +6,7 @@ PerceptronDefault = {
 	numberOfInput=2,
 	activation=function (x) return x>=0 and 1 or -1 end,
 	-- activation=function (x) return 2/(1+math.exp(-x)-1) end,
-	learningRate = 0.1
+	learningRate = 0.001
 }
 
 
