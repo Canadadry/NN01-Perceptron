@@ -12,10 +12,9 @@ function love.load(arg)
 	end
 
 	for i,point in ipairs(points) do
-		point:guessed(p:compute({point.x,point.y,1}))
+		point:guessed(p:compute(point:toArray()))
 	end
 	count = 0
-
 end
 
 function love.update(dt)
@@ -25,16 +24,13 @@ function love.update(dt)
 
 
 	if love.keyboard.isDown('return') then
-		--train
-		for i=1,10 do
-			for i,point in ipairs(points) do
-				p:train({point.x,point.y,1}, point:test())
-			end
-			count = count + 1
+		for i,point in ipairs(points) do
+			p:train(point:toArray(), point:test())
 		end
+		count = count + 1
 
 		for i,point in ipairs(points) do
-			point:guessed(p:compute({point.x,point.y,1}))
+			point:guessed(p:compute(point:toArray()))
 		end
 	end
 
@@ -48,17 +44,17 @@ function love.draw(dt)
 	-- perceptron model line is => p.w[1]*x+p.w[2]*y+p.w[3] = 0
 	-- so in form of a*x+b
 	local a = - p.weights[1] / p.weights[2]
-	local b = - p.weights[3] / p.weights[2]
+	local b = - p.weights[3] / p.weights[2] 
 	local left_x  = 0
-	local right_x = love.graphics.getWidth()
+	local right_x = 1
 	local left_y  = b + a * left_x
 	local right_y = b + a * right_x
 
 	love.graphics.setLineWidth(3)
 	love.graphics.setColor({1,1,1})
-	love.graphics.line( left_x, left_y, right_x, right_y )
+	love.graphics.line( left_x, left_y*love.graphics.getHeight(), right_x*love.graphics.getWidth(), right_y*love.graphics.getHeight())
 
-	love.graphics.print( "count " .. count)
+	love.graphics.print( count)
 
 
 end

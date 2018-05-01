@@ -28,6 +28,10 @@ function Point:draw()
     love.graphics.circle("line", self.x, self.y, 10) 
 end
 
+function Point:toArray()
+	return {self.x/love.graphics.getWidth(),self.y/love.graphics.getHeight(),1}
+end
+
 function Point:test()
 	-- return self.x > self.y   -- y=x
 	local a = -1
