@@ -8,14 +8,14 @@ Perceptron = class()
 
 function Perceptron:init(numberOfInput)
 	self.weights = {}
-	self.biais = self:random()
+	self.biais = self.random()
 	local numberOfInput = numberOfInput or PerceptronDefault.numberOfInput
 	for i=1, numberOfInput do
-		self.weights[i] = self:random()
+		self.weights[i] = self.random()
 	end
 end
 
-function Perceptron:random()
+function Perceptron.random()
 	local amplitude =  PerceptronDefault.maxValue - PerceptronDefault.minValue
 	local offset    = (PerceptronDefault.maxValue + PerceptronDefault.minValue)/2
 	return math.random()*amplitude+offset
