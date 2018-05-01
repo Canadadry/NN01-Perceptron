@@ -6,7 +6,7 @@ PerceptronDefault = {
 	numberOfInput=2,
 	activation=function (x) return x>=0 and 1 or -1 end,
 	-- activation=function (x) return 2/(1+math.exp(-x)-1) end,
-	learningRate = 0.00000001
+	learningRate = 0.1
 }
 
 
@@ -53,26 +53,3 @@ function Perceptron:train( inputs,output,debug )
 
 end
 
-function Perceptron:train_init( )
-	for  k,v in ipairs(self.weights) do
-		self.weights_retained[k] = 0
-	end
-end
-
-function Perceptron:train_retain( inputs,output,debug )
-	assert(inputs, "You must provide inputs to compute perceptron value")
-	assert(#inputs == #self.weights,"inputs do not have the right length")
-
-	local guess = self:compute(inputs)
-	local delta = output - guess
-
-	for  k,v in ipairs(self.weights) do
-		self.weights_retained[k] = self.weights_retained[k] +  delta * inputs[k] * PerceptronDefault.learningRate
-	end
-end
-
-function Perceptron:train_apply( )
-	for  k,v in ipairs(self.weights) do
-		self.weights[k] = self.weights[k] + self.weights_retained[k] / #self.weights
-	end
-end

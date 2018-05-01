@@ -26,17 +26,12 @@ function love.update(dt)
 
 	if love.keyboard.isDown('return') then
 		--train
-		-- p:train_init()
-		for i,point in ipairs(points) do
-			p:train({point.x,point.y,1}, point:test())
-			-- p:train_retain({point.x,point.y,1}, point:test())
+		for i=1,10 do
+			for i,point in ipairs(points) do
+				p:train({point.x,point.y,1}, point:test())
+			end
+			count = count + 1
 		end
-		-- p:train_apply()
-		count = count + 1
-
-		local a = - p.weights[1] / p.weights[2]
-		local b = - p.weights[3] / p.weights[2]	
-		print(a .. "," ..b)
 
 		for i,point in ipairs(points) do
 			point:guessed(p:compute({point.x,point.y,1}))
