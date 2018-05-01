@@ -1,19 +1,23 @@
 require "Class"
 
-Perceptron = class({minValue=-1,maxValue=1,defaultNumberOfInput=2})
+PerceptronDefault = {minValue=-1,maxValue=1,numberOfInput=2,activation=function (x) return x>=0 and 1 or -1 end}
+
+
+
+Perceptron = class()
 
 function Perceptron:init(numberOfInput)
 	self.weights = {}
 	self.biais = self:random()
-	local numberOfInput = numberOfInput or self.defaultNumberOfInput
+	local numberOfInput = numberOfInput or PerceptronDefault.numberOfInput
 	for i=1, numberOfInput do
 		self.weights[i] = self:random()
 	end
 end
 
 function Perceptron:random()
-	local amplitude =  self.maxValue - self.minValue
-	local offset    = (self.maxValue + self.minValue)/2
+	local amplitude =  PerceptronDefault.maxValue - PerceptronDefault.minValue
+	local offset    = (PerceptronDefault.maxValue + PerceptronDefault.minValue)/2
 	return math.random()*amplitude+offset
 end
 
@@ -25,5 +29,6 @@ function Perceptron:compute(inputs)
 	for i=1,#inputs do
 		sum = sum + inputs[i]*self.weights[i]
 	end
-	return sum
+	if self.activation then return self.activation(sum) end
+	return PerceptronDefault.activation(sum)
 end
